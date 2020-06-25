@@ -62,7 +62,7 @@ df.to_csv(newCSVName, index=False)
 
 # Convert date columns to datetime
 df["OpenTime"] = pd.to_datetime(df["OpenTime"], format="%Y.%m.%d %H:%M")
-df["CloseTime"] = pd.to_datetime(df["OpenTime"], format="%Y.%m.%d %H:%M")
+df["CloseTime"] = pd.to_datetime(df["CloseTime"], format="%Y.%m.%d %H:%M")
 
 # Extract Open/CloseTime and convert to DayOfWeek
 OpenTimeDayArray = []
@@ -73,5 +73,7 @@ for row in df.itertuples():
 
 df.insert(3, "OrderOpenDay", OpenTimeDayArray)
 df.insert(5, "OrderCloseDay", CloseTimeDayArray)
-print(df)
-# print(df["OpenTime"].dt.dayofweek)
+# print(df.groupby([df["OpenTime"].dt.hour, 'Profit']).mean())
+print(df.groupby(df["OpenTime"].dt.hour)["Profit"].mean())
+df.groupby(df["CloseTime"].dt.hour)["Profit"].mean()
+# print(df)
